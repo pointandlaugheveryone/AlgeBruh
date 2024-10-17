@@ -1,0 +1,244 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:AlgeBruh.ViewModels"
+         xmlns:m="clr-namespace:AlgeBruh.Models;assembly=AlgeBruh"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="320" d:DesignHeight="350"
+        x:Class="AlgeBruh.Views.MainWindow"
+        RequestedThemeVariant="Default"
+        xmlns:s="clr-namespace:System;assembly=mscorlib"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/AlgeBruh.ico"
+        Title="AlgeBruh"
+        MinHeight="350"
+        MinWidth="320"
+        Height="350"
+        Width="320"
+       >
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <Window.Styles>
+    <Style Selector="Button">
+        <Setter Property="Margin" Value="5"></Setter>
+        <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+     </Style>
+</Window.Styles>
+
+<Grid RowDefinitions="auto, auto, *"> 
+        <Menu Grid.Row="0">
+            <MenuItem Header="Menu">
+                <MenuItem Header="Exit." Command="{Binding Exit}"/>
+            </MenuItem>
+        </Menu>
+
+        <TextBlock Grid.Row="1" Text="{Binding DisplayValue}" TextAlignment="Right" FontSize="15" Margin="10" />
+
+        <Grid Grid.Row="2" RowDefinitions="*,*,*,*" ColumnDefinitions="*,*,*,*,*">
+
+            <Button 
+            Grid.Row="0" Grid.Column="0" 
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+            Command="{Binding AddNumberCommand}"
+            >
+                <Button.CommandParameter>
+                    <s:Int32>1</s:Int32>
+                </Button.CommandParameter>
+                1
+            </Button>
+
+            <Button 
+            Grid.Row="0" Grid.Column="1" 
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+            Command="{Binding AddNumberCommand}"
+            >
+                <Button.CommandParameter>
+                    <s:Int32>2</s:Int32>
+                </Button.CommandParameter>
+                2
+            </Button>
+
+            <Button 
+            Grid.Row="0" Grid.Column="2" 
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+            Command="{Binding AddNumberCommand}"
+            >
+                <Button.CommandParameter>
+                    <s:Int32>3</s:Int32>
+                </Button.CommandParameter>
+                3
+            </Button>
+
+            <Button 
+            Grid.Row="1" Grid.Column="0" 
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+            Command="{Binding AddNumberCommand}"
+            >
+                <Button.CommandParameter>
+                    <s:Int32>4</s:Int32>
+                </Button.CommandParameter>
+                4
+            </Button>
+
+            <Button 
+            Grid.Row="1" Grid.Column="1" 
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+            Command="{Binding AddNumberCommand}"
+            >
+                <Button.CommandParameter>
+                    <s:Int32>5</s:Int32>
+                </Button.CommandParameter>
+                5
+            </Button>
+
+            <Button 
+            Grid.Row="1" Grid.Column="2" 
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+            Command="{Binding AddNumberCommand}"
+            >
+                <Button.CommandParameter>
+                    <s:Int32>6</s:Int32>
+                </Button.CommandParameter>
+                6
+            </Button>
+
+            <Button 
+            Grid.Row="2" Grid.Column="0" 
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+            Command="{Binding AddNumberCommand}"
+            >
+                <Button.CommandParameter>
+                    <s:Int32>7</s:Int32>
+                </Button.CommandParameter>
+                7
+            </Button>
+
+            <Button 
+            Grid.Row="2" Grid.Column="1" 
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+            Command="{Binding AddNumberCommand}"
+            >
+                <Button.CommandParameter>
+                    <s:Int32>8</s:Int32>
+                </Button.CommandParameter>
+                8
+            </Button>
+
+            <Button Grid.Row="2" Grid.Column="2" 
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+            Command="{Binding AddNumberCommand}"
+            >
+                <Button.CommandParameter>
+                    <s:Int32>9</s:Int32>
+                </Button.CommandParameter>
+                9
+            </Button>
+
+            <Button Grid.Row="3" Grid.Column="1" 
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+            Command="{Binding AddNumberCommand}"
+            >
+                <Button.CommandParameter>
+                    <s:Int32>0</s:Int32>
+                </Button.CommandParameter>
+                0
+            </Button>
+
+            <Button Grid.Row="0" Grid.Column="3" 
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+            Command="{Binding ExecuteCommand}"
+            >
+                <Button.CommandParameter>
+                    <m:Operation>Square</m:Operation>
+                </Button.CommandParameter>
+                x²
+            </Button>
+
+            <Button Grid.Row="0" Grid.Column="4" 
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+            Command="{Binding ExecuteCommand}"
+            >
+                <Button.CommandParameter>
+                    <m:Operation>SquareRoot</m:Operation>
+                </Button.CommandParameter>
+                √x
+            </Button>
+
+            <Button Grid.Row="3" Grid.Column="0" 
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+            Command="{Binding ClearScreen}"
+            >
+                C
+            </Button>
+
+            <Button Grid.Row="3" Grid.Column="2" 
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+            Command="{Binding RemoveLastNumberCommand}"
+            >
+                ←
+            </Button>
+
+            <Button Grid.Row="1" Grid.Column="3" 
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+            FontSize="20" 
+            Command="{Binding ExecuteCommand}"
+            >
+                <Button.CommandParameter>
+                    <m:Operation>Addition</m:Operation>
+                </Button.CommandParameter>
+                +
+            </Button>
+
+            <Button Grid.Row="1" Grid.Column="4" 
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+            FontSize="20" 
+            Command="{Binding ExecuteCommand}"
+            >
+                <Button.CommandParameter>
+                    <m:Operation>Substraction</m:Operation>
+                </Button.CommandParameter>
+                -
+            </Button>
+
+            <Button Grid.Row="2" Grid.Column="3" 
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+            FontSize="20" 
+            Command="{Binding ExecuteCommand}"
+            >
+                <Button.CommandParameter>
+                    <m:Operation>Multiplication</m:Operation>
+                </Button.CommandParameter>
+                x
+            </Button>
+
+            <Button Grid.Row="2" Grid.Column="4" 
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+            FontSize="20" 
+            Command="{Binding ExecuteCommand}"
+            >
+                <Button.CommandParameter>
+                    <m:Operation>Division</m:Operation>
+                </Button.CommandParameter>
+                ÷
+            </Button>
+
+            <Button Grid.Row="3" Grid.Column="3" 
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.ColumnSpan="2" 
+            FontSize="20" 
+            Command="{Binding ExecuteCommand}"
+            >
+                <Button.CommandParameter>
+                    <m:Operation>Result</m:Operation>
+                </Button.CommandParameter>
+                =
+            </Button>
+
+        </Grid>
+    </Grid>
+
+
+</Window>
