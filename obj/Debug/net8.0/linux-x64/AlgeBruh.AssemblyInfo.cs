@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AlgeBruh")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8f1278de19df1f7b190f05b6d5243996131a6d77")]
 [assembly: System.Reflection.AssemblyProductAttribute("AlgeBruh")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AlgeBruh")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
