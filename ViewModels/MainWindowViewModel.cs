@@ -7,7 +7,6 @@ namespace AlgeBruh.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase  {
     
-    private const double defaultValue = 0;
     private double _firstValue;
     private double _secondValue;
 
@@ -127,7 +126,8 @@ public class MainWindowViewModel : ViewModelBase  {
                     ShownValue = Result<double>.Failure("Taking it complex huh? No.");
                 }
                 else {
-                    _firstValue = Math.Round(Math.Sqrt(_firstValue), 10);
+                    double tempValue = Math.Round(Math.Sqrt(_firstValue), 10);
+                    _firstValue = tempValue;
                 }
                 break;
             }
