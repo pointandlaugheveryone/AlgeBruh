@@ -2,22 +2,22 @@ using System;
 using System.Collections.Generic;
 
 public class Result<T> {
-    public T? Value { get; }
+    public double Value { get; }
     public string ErrorMessage { get; }
-    public bool showMessage {get; }
+    public bool showErrorMessage {get; }
 
-    private Result(T value) {
+    private Result(double value) {
         Value = value; 
-        showMessage = false;
+        showErrorMessage = false;
         ErrorMessage = String.Empty;
     }
 
     private Result(string errorMessage) {
-        showMessage = true;
+        showErrorMessage = true;
         ErrorMessage = errorMessage;
     }
 
-    public static Result<T> Success(T value) {
+    public static Result<T> Success(double value) {
         return new Result<T>(value);
     }
 

@@ -9,8 +9,6 @@ public class MainWindowViewModel : ViewModelBase  {
     
     private double _firstValue;
     private double _secondValue;
-
-    private string _inputValueString = "";
     private Operation _operation = Operation.Addition;
 
 
@@ -25,7 +23,7 @@ public class MainWindowViewModel : ViewModelBase  {
 
     public string DisplayValue {
         get {
-            if (ShownValue.showMessage) {
+            if (ShownValue.showErrorMessage) {
                 return ShownValue.ErrorMessage;
             }
             else {
@@ -45,23 +43,20 @@ public class MainWindowViewModel : ViewModelBase  {
     }
 
     private void AddNumber(int value) {
-        if (ShownValue.showMessage) {
-        ShownValue = Result<double>.Success(value);
-        _inputValueString = value.ToString();
+        if (ShownValue.showErrorMessage) {
+        ShownValue = Result<double>.Failure("Unhandled error. Goddamnit.");
         }
 
         else {
-            _inputValueString += value.ToString();
-            ShownValue = Result<double>.Success(double.Parse(_inputValueString));
+            ShownValue = Result<double>.Success(ShownValue.Value * 10 + value);
         }
     }
 
     private void RemoveLastNumber() {     
-        if (ShownValue.showMessage || ShownValue.Value == 0) {
+        if (ShownValue.Value == 0) {
             ShownValue = Result<double>.Success(0);
             return;
         }
-
         string shownValueString = ShownValue.Value.ToString();
         shownValueString = shownValueString.Substring(0, shownValueString.Length - 1);
 
@@ -74,27 +69,8 @@ public class MainWindowViewModel : ViewModelBase  {
     }
     
     private void Execute(Operation operation) {
-        if (operation == Operation.SquareRoot) {        // this is extremely ugly but i just want it to work
-            if (_firstValue < 0) {
-                ShownValue = Result<double>.Failure("Taking it complex huh? No.");
-                return;
-            } 
-
-            else {
-                _firstValue = Math.Round(Math.Sqrt(_firstValue), 10);
-                ShownValue = Result<double>.Success(_firstValue);
-                _inputValueString = "";
-                return;
-            }
-
-        }
-
-        if (!string.IsNullOrEmpty(_inputValueString)) {
-        _secondValue = double.Parse(_inputValueString);
-        }
 
         switch (_operation) {
-
             case Operation.Addition: {
                 _firstValue += _secondValue;
                 break;
@@ -126,8 +102,7 @@ public class MainWindowViewModel : ViewModelBase  {
                     ShownValue = Result<double>.Failure("Taking it complex huh? No.");
                 }
                 else {
-                    double tempValue = Math.Round(Math.Sqrt(_firstValue), 10);
-                    _firstValue = tempValue;
+                    _firstValue = Math.Round(Math.Sqrt(_firstValue), 10);
                 }
                 break;
             }
@@ -142,11 +117,9 @@ public class MainWindowViewModel : ViewModelBase  {
         // reset
         if (operation == Operation.Result) {
         ShownValue = Result<double>.Success(_firstValue);
-        _inputValueString = "";
         }
         else {
             _operation = operation;
-            _inputValueString = "";
         }
     }
 
@@ -155,7 +128,6 @@ public class MainWindowViewModel : ViewModelBase  {
         _operation = Operation.Addition;
         _firstValue = 0;
         _secondValue = 0;
-        _inputValueString = "";
         }
     
     public void Exit() {
