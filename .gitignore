@@ -3,7 +3,7 @@ obj/
 
 *.dll
 *.exe
-
+.directory
 *.pdb
 .vscode/
 *.nupkg

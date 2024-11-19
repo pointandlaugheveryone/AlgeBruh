@@ -69,7 +69,9 @@ public class MainWindowViewModel : ViewModelBase  {
     }
     
     private void Execute(Operation operation) {
-
+        if (_inputValueString != "" && ShownValue.Value == 0) {
+        _firstValue = double.Parse(_inputValueString);
+        }
         switch (_operation) {
             case Operation.Addition: {
                 _firstValue += _secondValue;
