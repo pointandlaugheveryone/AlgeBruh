@@ -1,8 +1,6 @@
-using System;
-
 namespace AlgeBruh.Models
 {
-    class Calculation
+    class Calculator
     {
         public double CurrentResult {get; private set;} = 0;
 
@@ -31,8 +29,13 @@ namespace AlgeBruh.Models
                 default:
                    throw new InvalidOperationException("Unhandled error.");
             }
+        }
 
-            
+        public void SquareRoot(double inputValue)
+        {
+            CurrentResult = Math.Sqrt(inputValue);
+            if (Double.IsNaN(CurrentResult))
+                throw new InvalidOperationException("Going complex? Be real...");
         }
     }
 }
