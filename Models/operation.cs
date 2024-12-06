@@ -6,6 +6,9 @@ namespace AlgeBruh.Models
         Substraction,
         Multiplication,
         Division,
+        Square,
+        SquareRoot,
+        Power,
         Result
     }
 }
