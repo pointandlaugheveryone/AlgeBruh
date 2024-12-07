@@ -2,63 +2,67 @@ namespace AlgeBruh.Models
 {
     class Calculator
     {
+        private readonly InputHandler _input;
         public double CurrentResult {get; private set;} = 0;
 
-        private void Calculate(Operation operation, double value1, double value2)
+
+        public Calculator(InputHandler inputHandler)
+        {
+            _input = inputHandler;
+        }
+
+
+
+        private double Calculate(Operation operation, double value1, double value2)
         {
             switch (operation)
             {
                 case Operation.Addition:
-                    CurrentResult = value1 + value2;
-                    break;
+                    return value1 + value2;
                 
                 case Operation.Substraction:
-                    CurrentResult = value1 - value2;
-                    break;
+                    return value1 - value2;
                 
                 case Operation.Multiplication:
-                    CurrentResult = value1 * value2;
-                    break;
+                    return value1 * value2;
 
                 case Operation.Division:
                     if (value1 == 0)
                         throw new DivideByZeroException("No further steps can be trusted.");
-                    CurrentResult = value1 / value2;
-                    break;
+                    return value1 / value2;
 
                 case Operation.Power:
-                    CurrentResult = Math.Pow(value1, value2);
-                    break;
+                    return Math.Pow(value1, value2);
 
                 default:
                    throw new InvalidOperationException("Unhandled error.");
             }
         }
 
-        private void CalculateUnary(Operation operation, double inputValue)
+        private double CalculateUnary(Operation operation, double value)
         {
             switch (operation)
             {
                 case Operation.Square:
-                    CurrentResult = inputValue * inputValue;
-                    break;
+                    return value * value;
 
                 case Operation.SquareRoot:
-                    if (CurrentResult < 0)
+                    if (value < 0)
                     {
                         throw new Exception("Going complex? Too bad");
                     }
                     else 
                     {
-                        CurrentResult = Math.Sqrt(inputValue);
+                        return Math.Sqrt(value);
                     }
-                    break;
 
+                default:
+                    throw new InvalidOperationException("Unhandled error.");
             }
         }
 
 
-        public string GetResult(Queue<Token> input)     // reads processed input, calls operation methods
+        private double Process(Queue<Token> input)     // reads processed input, calls operation methods
         {
             Stack<double> nums = new Stack<double>();     // numbers from RPN
 
@@ -82,17 +86,22 @@ namespace AlgeBruh.Models
                                 throw new InvalidOperationException("You forgor about the number.");
                             }
                             double operand = nums.Pop();
-                            CalculateUnary(op, operand);
+                            double result = CalculateUnary(op, operand);
+                            nums.Push(result);
                         }
 
                         else
                         {
-                            double num1 = nums.Pop();
+                            if (nums.Count < 2)
+                            {
+                                throw new InvalidOperationException("not enough numbers :(");
+                            }
+                            
                             double num2 = nums.Pop();
-                            Calculate(op, num1, num2);
+                            double num1 = nums.Pop();
+                            double result = Calculate(op, num1, num2);
+                            nums.Push(result);
                         }
-                        
-                        nums.Push(CurrentResult);
                     }
                 }
             }
@@ -102,7 +111,14 @@ namespace AlgeBruh.Models
             }
 
             CurrentResult = nums.Pop();
-            return CurrentResult.ToString();
+            return CurrentResult;
+        }
+
+        public string GetResult(string rawInput)
+        {
+            Queue<Token> tokens = _input.ParseInput(rawInput);
+            double result = Process(tokens);
+            return result.ToString();
         }
     }
 }

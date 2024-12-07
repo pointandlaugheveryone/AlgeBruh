@@ -7,8 +7,9 @@ using System.Windows.Input;
 namespace AlgeBruh.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase  {
-    private readonly Calculator _calculator = new Calculator();
     private readonly InputHandler _input = new();
+    private readonly Calculator _calculator;
+    
 
     private string _displayValue = String.Empty;
     public string DisplayValue
@@ -21,17 +22,18 @@ public class MainWindowViewModel : ViewModelBase  {
     public ICommand ClearCommand {get; }
     public ICommand DeleteLastCommand {get; }
     public ICommand CalcCommand {get; }
+    public ICommand ExitCommand { get; }
 
     public MainWindowViewModel()
     {
-        _calculator = new Calculator();
-        _input = new InputHandler();
+        _calculator = new Calculator(_input);
 
         // init commands
         AddCharCommand = ReactiveCommand.Create<string>(AddChar);
         ClearCommand = ReactiveCommand.Create(Clear);
         DeleteLastCommand = ReactiveCommand.Create(Delete);
         CalcCommand = ReactiveCommand.Create(Calculate);
+        ExitCommand = ExitCommand = ReactiveCommand.Create(ExitApp);
     }
 
     private void AddChar(string c)
@@ -53,13 +55,17 @@ public class MainWindowViewModel : ViewModelBase  {
     {
         try
         {
-            _input.ParseInput(DisplayValue);
-            // <a _calculator method call to process queue from line above
-            DisplayValue = _calculator.CurrentResult.ToString();
+            string result = _calculator.GetResult(DisplayValue);
+            DisplayValue = result;
         }
         catch (Exception ex)
         {
             DisplayValue = ex.Message;
         }
+    }
+
+    private void ExitApp()
+    {
+        Environment.Exit(0);
     }
 }
