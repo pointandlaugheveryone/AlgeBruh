@@ -31,6 +31,11 @@ namespace AlgeBruh.Models
             }
         }
 
+        public void Square(double inputValue)
+        {
+            CurrentResult = inputValue * inputValue;
+        }
+        
         public void SquareRoot(double inputValue)
         {
             CurrentResult = Math.Sqrt(inputValue);
