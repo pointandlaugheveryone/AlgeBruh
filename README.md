@@ -1,4 +1,4 @@
-This is a learning project gone wild.
+***This is a learning project gone wild.***
 I refactored the first code completely and tried to make it actually usable and easier to add other functions in the future. 
 (which I probably will not do honestly)
 However, it's still the first GUI thing I've ever made, so I will keep this public.
