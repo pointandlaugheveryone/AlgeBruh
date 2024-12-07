@@ -84,14 +84,17 @@ namespace AlgeBruh.Models
 
                 else if (operatorMap.ContainsKey(c))
                 {
-                    while (
-                        (OperatorStack.Count > 0) && 
-                        (OperatorStack.Peek() != '(') && 
-                        (precedence[OperatorStack.Peek()] > precedence[c]) &&
-                        (precedence[OperatorStack.Peek()] == precedence[c]) &&
-                        (!rightAssociative.ContainsKey(c)) &&
-                        (!rightAssociative.ContainsKey(c))
+                    while (     // very ugly logic dont look - handles operator precedence
+                        (OperatorStack.Count > 0) &&
+                        (OperatorStack.Peek() != '(') &&
+                        (
+                            (precedence[OperatorStack.Peek()] > precedence[c]) ||
+                            (
+                                (precedence[OperatorStack.Peek()] == precedence[c]) &&
+                                (!rightAssociative.ContainsKey(OperatorStack.Peek()))
+                            )
                         )
+                    )
                     {
                         EnqueueOp(OperatorStack.Pop());
                     }
