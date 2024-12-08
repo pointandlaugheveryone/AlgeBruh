@@ -45,6 +45,7 @@
          
         <Grid Grid.Row="2" RowDefinitions="*,*,*,*" ColumnDefinitions="*,*,*,*,*">
 
+            <!-- Number Buttons -->
             <Button 
             Grid.Row="0" Grid.Column="0" 
             VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
@@ -153,6 +154,7 @@
                 0
             </Button>
 
+            <!-- Operation Buttons -->
             <Button Grid.Row="0" Grid.Column="3" 
             VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
             Command="{Binding CalcCommand}"
@@ -173,6 +175,7 @@
                 √x
             </Button>
 
+            <!-- Clear Button -->
             <Button Grid.Row="3" Grid.Column="0" 
             VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
             Command="{Binding ClearCommand}"
@@ -232,7 +235,18 @@
             </Button>
 
             <Button Grid.Row="3" Grid.Column="3" 
-            VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.ColumnSpan="2" 
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  
+            FontSize="20" 
+            Command="{Binding CalcCommand}"
+            >
+                <Button.CommandParameter>
+                    <m:Operation>Power</m:Operation>
+                </Button.CommandParameter>
+                ^
+            </Button>
+
+            <Button Grid.Row="3" Grid.Column="4" 
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  
             FontSize="20" 
             Command="{Binding CalcCommand}"
             >
