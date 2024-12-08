@@ -93,8 +93,8 @@ namespace AlgeBruh.ViewModels
             {
                 Operation.Addition => "+",
                 Operation.Substraction => "-",
-                Operation.Multiplication => "*",
-                Operation.Division => "/",
+                Operation.Multiplication => "x",
+                Operation.Division => "÷",
                 Operation.Square => "²",
                 Operation.SquareRoot => "√",
                 Operation.Power => "^",

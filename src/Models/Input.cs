@@ -3,15 +3,15 @@ namespace AlgeBruh.Models
     public class InputHandler   // shunting yard implementation to read input
     {
         private readonly List<char> validChars = 
-        ['1','2','3','4','5','6','7','8','9','0','=','+','-','/','*','√','^','.',',','(',')','²'];
+        ['1','2','3','4','5','6','7','8','9','0','=','+','-','/','*','√','^','.',',','(',')','²','x','÷'];
         public Queue<Token> OutputQueue { get; set; } = new Queue<Token>();
         public Stack<char> OperatorStack {get; set;} = new Stack<char>();
         private readonly Dictionary<char, Operation> operatorMap = new Dictionary<char, Operation>
         {
             { '+', Operation.Addition },
             { '-', Operation.Substraction },
-            { '*', Operation.Multiplication },
-            { '/', Operation.Division },
+            { 'x', Operation.Multiplication },
+            { '÷', Operation.Division },
             { '²', Operation.Square },
             { '√', Operation.SquareRoot },
             { '^', Operation.Power }
@@ -20,10 +20,10 @@ namespace AlgeBruh.Models
         {  
             { '-', 1 },
             { '+', 2 },
-            { '/', 3 },
-            { '*', 4 },
+            { '/', 3 }, { '÷', 3 },
+            { '*', 4 }, { 'x', 4 },
             { '√', 5 },
-            { '^', 6 },
+            { '²', 6 }, { '^', 6 }
         };      // tracks operator precedence, 
         private readonly Dictionary<char, bool> rightAssociative = new Dictionary<char, bool>
         {
