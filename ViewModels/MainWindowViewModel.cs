@@ -18,6 +18,7 @@ namespace AlgeBruh.ViewModels
             set => this.RaiseAndSetIfChanged(ref _displayValue, value);
         }
 
+        // init commands
         public ReactiveCommand<int, Unit> AddCharCommand { get; }
         public ReactiveCommand<Unit, Unit> ClearCommand { get; }
         public ReactiveCommand<Unit, Unit> DeleteLastCommand { get; }
@@ -28,7 +29,7 @@ namespace AlgeBruh.ViewModels
         {
             _calculator = new Calculator(_input);
 
-            // Initialize commands
+            // define commands
             AddCharCommand = ReactiveCommand.Create<int>(AddChar);
             ClearCommand = ReactiveCommand.Create(Clear);
             DeleteLastCommand = ReactiveCommand.Create(Delete);
@@ -65,14 +66,25 @@ namespace AlgeBruh.ViewModels
                 }
                 else
                 {
-                    // Append operation symbol or handle accordingly
-                    DisplayValue += GetOperationSymbol(operation);
+                    if (IsUnaryOperation(operation))
+                    {
+                        DisplayValue += GetOperationSymbol(operation);
+                    }
+                    else
+                    {
+                        DisplayValue += GetOperationSymbol(operation);
+                    }
                 }
             }
             catch (Exception ex)
             {
                 DisplayValue = ex.Message;
             }
+        }
+
+        private bool IsUnaryOperation(Operation operation)
+        {
+            return operation == Operation.Square || operation == Operation.SquareRoot;
         }
 
         private string GetOperationSymbol(Operation operation)

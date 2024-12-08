@@ -3,7 +3,7 @@ namespace AlgeBruh.Models
     public class InputHandler   // shunting yard implementation to read input
     {
         private readonly List<char> validChars = 
-        ['1','2','3','4','5','6','7','8','9','0','=','+','-','/','*','√','^','.',',','(',')'];
+        ['1','2','3','4','5','6','7','8','9','0','=','+','-','/','*','√','^','.',',','(',')','²'];
         public Queue<Token> OutputQueue { get; set; } = new Queue<Token>();
         public Stack<char> OperatorStack {get; set;} = new Stack<char>();
         private readonly Dictionary<char, Operation> operatorMap = new Dictionary<char, Operation>
@@ -12,18 +12,19 @@ namespace AlgeBruh.Models
             { '-', Operation.Substraction },
             { '*', Operation.Multiplication },
             { '/', Operation.Division },
+            { '²', Operation.Square },
             { '√', Operation.SquareRoot },
             { '^', Operation.Power }
         };
         private readonly Dictionary<char, int> precedence = new Dictionary<char, int>
-        {
+        {  
+            { '-', 1 },
             { '+', 2 },
-            { '-', 2 },
-            { '*', 3 },
             { '/', 3 },
-            { '^', 4 },
-            { '√', 4 } 
-        };
+            { '*', 4 },
+            { '√', 5 },
+            { '^', 6 },
+        };      // tracks operator precedence, 
         private readonly Dictionary<char, bool> rightAssociative = new Dictionary<char, bool>
         {
             { '^', true },
@@ -33,13 +34,21 @@ namespace AlgeBruh.Models
 
         public void Validate(string input)
         {
-            foreach (char ch in input)
+            int balance = 0;    // tracks number of parentheses
+            foreach (char c in input)
             {
-                if(!validChars.Contains(ch))
-                {
-                    throw new Exception($"character {ch} not recognised.");
-                }
+                if (c == '(') balance++;
+                else if (c == ')') balance--;
+
+                if (balance < 0)
+                    throw new Exception("Mismatched parentheses.");
+
+                if (!validChars.Contains(c))
+                    throw new Exception($"Invalid character: {c}");
             }
+
+            if (balance != 0)
+                throw new Exception("Mismatched parentheses.");
         }
 
         public void Postfix(string input)
@@ -50,84 +59,70 @@ namespace AlgeBruh.Models
 
             foreach (char c in inputArray)
             {
-                // operator handling
-                if ((char.IsDigit(c)) || c == ',' || c == '.')  // read decimals, check for invalid decimal point
+                if (char.IsDigit(c) || c == ',' || c == '.')
                 {
                     if (c == ',' || c == '.')
                     {
                         if (isDecimal)
-                        {
-                            throw new Exception("There are two decimal points, you have fat fingers.");
-                        }
-                    isDecimal = true;
+                            throw new Exception("Multiple decimal points...");
+                        isDecimal = true;
                     }
                     numberBuffer += c;
                 }
-
                 else if (c == '(')
                 {
                     OperatorStack.Push(c);
                 }
-
                 else if (c == ')')
                 {
+                    if (!string.IsNullOrEmpty(numberBuffer))
+                    {
+                        EnqueueNum(numberBuffer);
+                        numberBuffer = string.Empty;
+                        isDecimal = false;
+                    }
+
                     while (OperatorStack.Count > 0 && OperatorStack.Peek() != '(')
                     {
                         EnqueueOp(OperatorStack.Pop());
                     }
 
-                    if ((OperatorStack.Count == 0) || (OperatorStack.Pop() != '('))
-                    {
-                        throw new Exception("Invalid parentheses.");
-                    }
+                    if (OperatorStack.Count == 0 || OperatorStack.Pop() != '(')
+                        throw new Exception("Mismatched parentheses.");
                 }
-
                 else if (operatorMap.ContainsKey(c))
                 {
-                    while (     // very ugly logic dont look - handles operator precedence
-                        (OperatorStack.Count > 0) &&
-                        (OperatorStack.Peek() != '(') &&
-                        (
-                            (precedence[OperatorStack.Peek()] > precedence[c]) ||
-                            (
-                                (precedence[OperatorStack.Peek()] == precedence[c]) &&
-                                (!rightAssociative.ContainsKey(OperatorStack.Peek()))
-                            )
-                        )
-                    )
+                    if (!string.IsNullOrEmpty(numberBuffer))
+                    {
+                        EnqueueNum(numberBuffer);
+                        numberBuffer = string.Empty;
+                        isDecimal = false;
+                    }
+
+                    while (OperatorStack.Count > 0 && OperatorStack.Peek() != '(' &&
+                           (precedence[OperatorStack.Peek()] > precedence[c] ||
+                           (precedence[OperatorStack.Peek()] == precedence[c] && !rightAssociative.ContainsKey(OperatorStack.Peek()))))
                     {
                         EnqueueOp(OperatorStack.Pop());
                     }
                     OperatorStack.Push(c);
                 }
-
                 else
                 {
-                    throw new Exception($"Invalid input {c}. Incident will be reported.");
-                }
-
-                // if operator or parantheses encountered, enqueue current number
-                if (!char.IsDigit(c) && c != ',' && c != '.')
-                {
-                    EnqueueNum(numberBuffer);
-                    numberBuffer = string.Empty;    // reset variables
-                    isDecimal = false;
+                    throw new Exception($"Invalid input {c}.");
                 }
             }
 
-            // handle remaining characters
-            if (!string.IsNullOrEmpty(numberBuffer))    
+            if (!string.IsNullOrEmpty(numberBuffer))
             {
                 EnqueueNum(numberBuffer);
             }
-        
+
             while (OperatorStack.Count > 0)
             {
                 char op = OperatorStack.Pop();
                 if (op == '(' || op == ')')
-                {
-                    throw new Exception("Mismatched parentheses, dumbass.");
-                }
+                    throw new Exception("Mismatched parentheses.");
                 EnqueueOp(op);
             }
         }
@@ -148,7 +143,7 @@ namespace AlgeBruh.Models
             }
             else 
             {
-                throw new Exception($"{buffer} does NOT counts as a number.");
+                throw new Exception($"Not a valid number.");
             }
         }
 

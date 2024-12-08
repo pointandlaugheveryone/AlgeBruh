@@ -5,7 +5,8 @@ However, it's still the first GUI thing I've ever made, so I will keep this publ
 
 Currently, it utilises the shunting yard algorithm to enable copy-pasting mathematical expressions and validate parentheses.
 
-The UI is build with AvaloniaUI to be platform agnostic and is still in progress. (read unfunctional)
+The UI is build with AvaloniaUI to be platform agnostic.\
+Not all buttons are there yet but the functions (e.g. parentheses) work.
 
 
 ![algebruhview](https://github.com/pointandlaugheveryone/AlgeBruh/blob/main/algebruhview.png)

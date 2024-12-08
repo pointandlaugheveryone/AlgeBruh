@@ -94,7 +94,7 @@ namespace AlgeBruh.Models
                         {
                             if (nums.Count < 2)
                             {
-                                throw new InvalidOperationException("not enough numbers :(");
+                                throw new InvalidOperationException("not enough numbers.");
                             }
                             
                             double num2 = nums.Pop();
@@ -107,7 +107,7 @@ namespace AlgeBruh.Models
             }
             if (nums.Count != 1)
             {
-                throw new InvalidOperationException("Im confused");
+                throw new InvalidOperationException("Expression could not be deciphered.");
             }
 
             CurrentResult = nums.Pop();
