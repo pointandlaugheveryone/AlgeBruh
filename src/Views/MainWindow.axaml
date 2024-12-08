@@ -9,7 +9,7 @@
         RequestedThemeVariant="Default"
         xmlns:s="clr-namespace:System;assembly=mscorlib"
         x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/AlgeBruh.ico"
+        Icon="/src/Assets/AlgeBruh.ico"
         Title="AlgeBruh"
         
         MinHeight="350"
