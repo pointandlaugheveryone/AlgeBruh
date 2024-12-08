@@ -7,14 +7,17 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
 
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-    <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
+    <RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
-    <AvaloniaResource Include="Assets\**" />
+    <Folder Include="src\" />
+    <AvaloniaResource Include="src\Assets\**" />
   </ItemGroup>
+
+  <PropertyGroup>
+    <ApplicationIcon>src/Assets/AlgeBruh.ico</ApplicationIcon>
+</PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.1.4" />
